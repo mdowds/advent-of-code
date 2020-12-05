@@ -1,4 +1,4 @@
-﻿open System.IO
+﻿﻿open System.IO
 
 // Builds out the list of all combinations before checking which sums to 2020
 // So not the most efficient solution
