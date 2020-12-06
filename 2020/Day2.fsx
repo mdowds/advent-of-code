@@ -9,7 +9,7 @@ type PasswordPolicy =
 let countIf f = Seq.filter f >> Seq.length
 
 let lines =
-    File.ReadAllLines(@"day2_data.txt") |> Seq.toList
+    File.ReadAllLines(@"2020/day2_data.txt") |> Seq.toList
 
 let getComponents line =
     let regex = (Regex "(\d+)-(\d+) (\w): (\w+)")

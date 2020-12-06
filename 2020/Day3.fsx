@@ -1,7 +1,7 @@
 open System.IO
 
 let lines =
-    File.ReadAllLines(@"day3_data.txt") |> Seq.toList
+    File.ReadAllLines(@"2020/day3_data.txt") |> Seq.toList
 
 let toCharArray (s: string) = s.ToCharArray()
 let countIf f = Seq.filter f >> Seq.length
