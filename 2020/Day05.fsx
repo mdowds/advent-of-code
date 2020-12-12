@@ -1,7 +1,7 @@
 open System.IO
 
 let passes =
-    File.ReadAllLines(@"2020/day5_data.txt")
+    File.ReadAllLines(@"2020/day05_data.txt")
     |> Seq.toList
 
 let toCharArray (s: string) = s.ToCharArray()

@@ -2,7 +2,7 @@ open System.IO
 open System.Text.RegularExpressions
 
 let lines =
-    File.ReadAllLines(@"2020/day4_data.txt")
+    File.ReadAllLines(@"2020/day04_data.txt")
     |> Seq.toList
 
 

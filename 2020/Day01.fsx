@@ -2,7 +2,7 @@
 
 // Builds out the list of all combinations before checking which sums to 2020
 // So not the most efficient solution
-let lines = File.ReadAllLines(@"2020/day1_data.txt")
+let lines = File.ReadAllLines(@"2020/day01_data.txt")
 let nums = Seq.map int lines |> Seq.toList
 
 // combinations taken from http://www.danielbradley.net/blog/2011/12-20-creating-possible-combinations/index.html

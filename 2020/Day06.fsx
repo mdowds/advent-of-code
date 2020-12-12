@@ -1,7 +1,7 @@
 open System.IO
 
 let lines =
-    File.ReadAllLines(@"2020/day6_data.txt")
+    File.ReadAllLines(@"2020/day06_data.txt")
     |> Seq.toList
 
 let appendLine acc (line: string) =

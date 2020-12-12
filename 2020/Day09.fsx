@@ -1,7 +1,7 @@
 ﻿open System.IO
 
 let numbers =
-    File.ReadAllLines(@"2020/day9_data.txt")
+    File.ReadAllLines(@"2020/day09_data.txt")
     |> Seq.toList
     |> List.map int64
 

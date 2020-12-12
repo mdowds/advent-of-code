@@ -2,7 +2,7 @@ open System
 open System.IO
 
 let rulesRaw =
-    File.ReadAllLines(@"2020/day7_data.txt")
+    File.ReadAllLines(@"2020/day07_data.txt")
     |> Seq.toList
 
 type Rule =

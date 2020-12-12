@@ -2,7 +2,7 @@
 open System.IO
 
 let lines =
-    File.ReadAllLines(@"2020/day8_data.txt")
+    File.ReadAllLines(@"2020/day08_data.txt")
     |> Seq.toList
 
 type Outcome =
