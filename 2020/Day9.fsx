@@ -26,19 +26,36 @@ let partOneOutput =
     |> List.find (pairInRestSumsToLast >> isFalse)
     |> (fun list -> list.[25])
 
-let trySumTo target total el =
-    match total with
-    | Some total when total < target -> Some(total + el)
-    | Some total when total = target -> Some total
-    | _ -> None
+let foldAndTakeWhile predicate state list =
+    let rec loop out state list =
+        match list with
+        | x :: xs ->
+            match predicate state x with
+            | (newState, true) -> loop (out @ [ x ]) newState xs
+            | (newState, false) -> (newState, out)
+        | _ -> (state, [])
 
-let tryFindSeriesThatSumsTo target (numbers: int list) res i =
-    let tryFindFromIndex i =
+    loop [] state list
+
+let takeFrom i = List.splitAt i >> snd
+
+let lessThanEqualTo target acc x =
+    let newAcc = acc + x
+    if newAcc <= target then (newAcc, true) else (acc, false)
+
+let rec tryFindSeriesThatSumsTo (target: int64) numbers i =
+    let (total, series) =
         numbers
-        |> List.splitAt i
-        |> snd
-        |> fun xs -> List.fold (trySumTo target) (xs |> List.head |> Some) xs
+        |> takeFrom i
+        |> foldAndTakeWhile (lessThanEqualTo target) 0L
 
-    match res with
-    | Some x -> x
-    | None -> tryFindFromIndex i
+    if total = target
+    then series
+    else tryFindSeriesThatSumsTo target numbers (i + 1)
+
+let minAndMax list = (List.min list, List.max list)
+
+let partTwoOutput =
+    tryFindSeriesThatSumsTo partOneOutput numbers 0
+    |> minAndMax
+    |> (fun (x, y) -> x + y)
