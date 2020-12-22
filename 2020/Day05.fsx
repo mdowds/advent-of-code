@@ -1,10 +1,11 @@
+#load "utils.fsx"
+
+open Utils
 open System.IO
 
 let passes =
     File.ReadAllLines(@"2020/day05_data.txt")
     |> Seq.toList
-
-let toCharArray (s: string) = s.ToCharArray()
 
 let rows = { 0 .. 127 } |> Seq.toList
 let cols = { 0 .. 7 } |> Seq.toList
@@ -14,7 +15,7 @@ let partitionList lowerIndicator l indicator =
     if indicator = lowerIndicator then halves.[0] else halves.[1]
 
 let passCoord lowerIndicator l =
-    toCharArray
+    StringUtils.toCharArray
     >> Seq.toList
     >> Seq.fold (partitionList lowerIndicator) l
     >> Seq.head

@@ -1,13 +1,15 @@
+#load "utils.fsx"
+
+open Utils
 open System.IO
 
 let lines =
     File.ReadAllLines(@"2020/day03_data.txt") |> Seq.toList
 
-let toCharArray (s: string) = s.ToCharArray()
 let countIf f = Seq.filter f >> Seq.length
 let isTrue x = x = true
 
-let steps = Seq.map toCharArray lines
+let steps = Seq.map StringUtils.toCharArray lines
 
 let getAdjustedXPos stepsRight stepLength yPos =
     let xPos = yPos * stepsRight

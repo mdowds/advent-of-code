@@ -1,10 +1,11 @@
+#load "utils.fsx"
+
+open Utils
 open System.IO
 
 let instructions =
     File.ReadAllLines(@"2020/day12_data.txt")
     |> Seq.toList
-
-let splitStringAt i (str: string) = (str.Substring(0, i), str.Substring(i))
 
 let turnRight current turnDegrees = (current + turnDegrees) % 360
 
@@ -36,7 +37,7 @@ let moveForward (east, north, direction) value =
         (east, north, direction)
 
 let processInstruction (east, north, direction) instruction =
-    let (command, v) = splitStringAt 1 instruction
+    let (command, v) = StringUtils.splitStringAt 1 instruction
     let value = int v
 
     match command with

@@ -1,3 +1,6 @@
+#load "utils.fsx"
+
+open Utils
 open System
 open System.IO
 
@@ -10,17 +13,20 @@ type Rule =
       AllowedContents: (int * string) list }
 
 let splitS (seps: string []) (s: string) = s.Split(seps, StringSplitOptions.None)
-let splitC (seps: char []) (s: string) = s.Split(seps, StringSplitOptions.None)
 
 let join (delimiter: string) (s: string []) = String.Join(delimiter, s)
 
 let sub i len xs = Array.sub xs i len
 
 let parseContainer =
-    splitC [| ' ' |] >> Array.take 2 >> join " "
+    StringUtils.splitString [| ' ' |]
+    >> Array.take 2
+    >> join " "
 
 let parseContentsRule rule =
-    let splitRule = rule |> splitC [| ' ' |]
+    let splitRule =
+        rule |> StringUtils.splitString [| ' ' |]
+
     let quantity = splitRule |> Array.head |> int
     let bagType = splitRule |> sub 1 2 |> join " "
     (quantity, bagType)
@@ -75,8 +81,7 @@ let rec findContentsQuantity bagType rules =
     match rule.AllowedContents with
     | [] -> 0
     | ac ->
-        let totalBags (q, bt) = q + (q * findContentsQuantity bt rules )
+        let totalBags (q, bt) = q + (q * findContentsQuantity bt rules)
         List.map totalBags ac |> List.sum
-        
-let partTwoOutput =
-    findContentsQuantity "shiny gold" rules
+
+let partTwoOutput = findContentsQuantity "shiny gold" rules

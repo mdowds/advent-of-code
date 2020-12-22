@@ -1,3 +1,6 @@
+#load "utils.fsx"
+
+open Utils
 open System.IO
 open System.Text.RegularExpressions
 
@@ -58,14 +61,6 @@ let isIyrValid (iyr: string) = int iyr >= 2010 && int iyr <= 2020
 
 let isEyrValid (eyr: string) = int eyr >= 2020 && int eyr <= 2030
 
-let regexMatch regex =
-    let regex = (Regex regex)
-    regex.Match
-
-let doesMatchRegex regex str =
-    let rMatch = regexMatch regex str
-    rMatch.Success
-
 let isHgtValid hgt =
     let isMeasurementValid (groups: GroupCollection) =
         let measurement = int groups.[1].Value
@@ -76,13 +71,13 @@ let isHgtValid hgt =
         | "cm" -> measurement >= 150 && measurement <= 193
         | _ -> false
 
-    let rMatch = regexMatch "(\d+)(in|cm)" hgt
+    let rMatch = RegexUtils.regexMatch "(\d+)(in|cm)" hgt
     match rMatch.Success with
     | true -> isMeasurementValid rMatch.Groups
     | false -> false
 
 
-let isHclValid = doesMatchRegex "#[0-9a-f]{6}"
+let isHclValid = RegexUtils.doesMatchRegex "#[0-9a-f]{6}"
 
 let validEcls =
     [ "amb"
@@ -95,7 +90,7 @@ let validEcls =
 
 let isEclValid ecl = Seq.contains ecl validEcls
 
-let isPidValid = doesMatchRegex "^[0-9]{9}$"
+let isPidValid = RegexUtils.doesMatchRegex "^[0-9]{9}$"
 
 let fieldValidators =
     Map [ ("byr", isByrValid)

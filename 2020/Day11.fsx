@@ -1,14 +1,12 @@
-open System.IO
+#load "utils.fsx"
 
-let toCharArray (str: string) = str.ToCharArray()
+open Utils
+open System.IO
 
 let rows =
     File.ReadAllLines(@"2020/day11_data.txt")
     |> Seq.toArray
-    |> Array.map toCharArray
-
-
-let countIf f = Array.filter f >> Array.length
+    |> Array.map StringUtils.toCharArray
 
 let isSeatOccupied seat = seat = '#'
 
@@ -24,7 +22,7 @@ let shouldBeVacated getSeatsToCheck limit col seat =
     | (col, _) ->
         col
         |> getSeatsToCheck
-        |> countIf isSeatOccupied
+        |> ArrayUtils.countIf isSeatOccupied
         |> (fun occupiedSeats -> occupiedSeats >= limit)
 
 let canBeOccupied getSeatsToCheck col seat =
@@ -64,7 +62,7 @@ let processWindow (window: char [] []) =
     Array.mapi (processSpace adjacentSeats 4) row
 
 let countOccupiedSeats (rows: char [] []) =
-    rows |> Array.concat |> countIf (fun s -> s = '#')
+    rows |> Array.concat |> ArrayUtils.countIf (fun s -> s = '#')
 
 let rec runPartOneSimulation prev =
     let current =

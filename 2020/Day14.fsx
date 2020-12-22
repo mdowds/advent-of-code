@@ -1,34 +1,24 @@
+#load "utils.fsx"
+
+open Utils
 open System
 open System.IO
-open System.Text.RegularExpressions
 
 let data =
     File.ReadAllLines(@"2020/day14_data.txt")
 
-let splitString sep (str: string) = str.Split(sep)
-
 let removeSubstring substr (str: string) = str.Replace(substr, "")
-
-let toCharArray (s: string) = s.ToCharArray()
-
-let regexMatch regex =
-    let regex = (Regex regex)
-    regex.Match
-
-let firstCaptureGroup regex str =
-    let matches = regexMatch regex str
-    matches.Groups.[1].Value
 
 let toInstruction (line: string []) = (line.[0], line.[1])
 
 let parseLine line =
     line
     |> removeSubstring " "
-    |> splitString [| '=' |]
+    |> StringUtils.splitString [| '=' |]
     |> toInstruction
 
 let extractAddress (command: string) =
-    command |> firstCaptureGroup "mem\[(\d+)\]" |> int
+    command |> RegexUtils.firstCaptureGroup "mem\[(\d+)\]" |> int
 
 let toBinary len (x: int64) = Convert.ToString(x, 2).PadLeft(len, '0')
 
@@ -44,7 +34,7 @@ let applyMask mask x =
     x
     |> int64
     |> toBinary 36
-    |> toCharArray
+    |> StringUtils.toCharArray
     |> Array.map2 applyMaskChar mask
     |> String
     |> binaryToInt64
@@ -54,7 +44,7 @@ let processInstruction (mem: Map<int, int64>, mask: char []) (command, value) =
         Map.add address (applyMask mask value) mem
 
     match command with
-    | "mask" -> (mem, toCharArray value)
+    | "mask" -> (mem, StringUtils.toCharArray value)
     | memCommand when memCommand.StartsWith("mem") ->
         let newMem =
             processMemInstruction (extractAddress memCommand)
@@ -64,7 +54,7 @@ let processInstruction (mem: Map<int, int64>, mask: char []) (command, value) =
 
 let initialMask =
     "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-    |> toCharArray
+    |> StringUtils.toCharArray
 
 let partOneOutput =
     data

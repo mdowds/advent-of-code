@@ -1,5 +1,7 @@
+#load "utils.fsx"
+
+open Utils
 open System.IO
-open System.Text.RegularExpressions
 
 type PasswordPolicy =
     { RequiredChar: char
@@ -12,9 +14,7 @@ let lines =
     File.ReadAllLines(@"2020/day02_data.txt") |> Seq.toList
 
 let getComponents line =
-    let regex = (Regex "(\d+)-(\d+) (\w): (\w+)")
-    let matches = regex.Match line
-    let groups = matches.Groups
+    let groups = RegexUtils.captureGroups "(\d+)-(\d+) (\w): (\w+)" line
 
     let policy =
         { RequiredChar = groups.[3].Value.ToCharArray().[0]
